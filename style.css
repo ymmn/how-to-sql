@@ -1,11 +1,14 @@
 body {
   background: #f7f7f7;
   font-family: 'Lato',sans-serif;
+  font-size: 16px;
+  padding: 1.5rem;
 }
 
 .container {
   display: flex;
   width: 900px;
+  margin: auto;
 }
 
 .sidebar {
@@ -15,4 +18,79 @@ body {
 
 .mainSection {
   flex-grow: 1;
+}
+
+.generateSqlBtn {
+  font-size: 16px;
+  width: 100%;
+  max-width: 400px;
+  background: #ff6138;
+  color: white;
+  text-transform: uppercase;
+  padding: 12px;
+  border: 0;
+  border-radius: 2px;
+  font-weight: 300;
+  box-shadow: 0 2px 3px 0 rgba(0,0,0,0.1);
+}
+
+.logo {
+  font-weight: 300;
+  text-transform: uppercase;
+  display: block;
+  width: 150px;
+  text-align: center;
+  font-size: 2.2em;
+  margin-top: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+.radioBtn {
+  position: relative;
+  margin-left: 24px;
+  line-height: 24px;
+  cursor: pointer;
+}
+
+.radioBtn.selected {
+  color: #00a388;
+}
+
+.radioBtn.selected:before {
+  border-color: #00a388;
+}
+
+.radioBtn.selected:after {
+  background: #00a388;
+}
+
+.radioBtn:before {
+  position: absolute;
+  left: -25px;
+  top: 0;
+
+  content: '';
+  border-radius: 50%;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #4a4a4a;
+  vertical-align: middle;
+}
+
+.radioBtn:after {
+  position: absolute;
+  left: -20px;
+  top: 9px;
+
+  content: '';
+  border-radius: 50%;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 6px;
+  margin-top: -4px;
+  vertical-align: middle;
 }
