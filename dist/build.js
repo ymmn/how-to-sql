@@ -10329,20 +10329,61 @@ Elm.Main.make = function (_elm) {
    $Debug = Elm.Debug.make(_elm),
    $Html = Elm.Html.make(_elm),
    $Html$Attributes = Elm.Html.Attributes.make(_elm),
+   $Html$Events = Elm.Html.Events.make(_elm),
    $List = Elm.List.make(_elm),
    $Maybe = Elm.Maybe.make(_elm),
    $Result = Elm.Result.make(_elm),
    $Signal = Elm.Signal.make(_elm),
    $StartApp$Simple = Elm.StartApp.Simple.make(_elm);
    var _op = {};
-   var update = F2(function (action,model) {    return model;});
+   var renderSqlSection = A2($Html.pre,_U.list([$Html$Attributes.$class("sqlCode")]),_U.list([$Html.text("ALTER TABLE foo;")]));
+   var renderEmptyHtml = $Html.text("");
+   var update = F2(function (action,model) {
+      var _p0 = action;
+      switch (_p0.ctor)
+      {case "NoOp": return model;
+         case "GenerateSql": return _U.update(model,{showSql: true});
+         default: return _U.update(model,{radioOn: $Basics.not(model.radioOn)});}
+   });
+   var ToggleRadio = {ctor: "ToggleRadio"};
+   var renderRadioButton = F2(function (address,radioOn) {
+      var classname = radioOn ? "radioBtn selected" : "radioBtn";
+      return A2($Html.div,_U.list([$Html$Attributes.$class(classname),A2($Html$Events.onClick,address,ToggleRadio)]),_U.list([$Html.text("Radio Button")]));
+   });
+   var GenerateSql = {ctor: "GenerateSql"};
+   var renderMainSection = F2(function (address,model) {
+      var sqlSectionHtml = model.showSql ? renderSqlSection : renderEmptyHtml;
+      return A2($Html.div,
+      _U.list([$Html$Attributes.$class("mainSection")]),
+      _U.list([A2(renderRadioButton,address,model.radioOn)
+              ,A2($Html.button,
+              _U.list([$Html$Attributes.$class("generateSqlBtn"),A2($Html$Events.onClick,address,GenerateSql)]),
+              _U.list([$Html.text("Generate Sql")]))
+              ,sqlSectionHtml]));
+   });
    var view = F2(function (address,model) {
       return A2($Html.div,
       _U.list([$Html$Attributes.$class("container")]),
-      _U.list([A2($Html.div,_U.list([$Html$Attributes.$class("sidebar")]),_U.list([$Html.text("How 2 Sql")]))
-              ,A2($Html.div,_U.list([$Html$Attributes.$class("mainSection")]),_U.list([$Html.text("content")]))]));
+      _U.list([A2($Html.div,
+              _U.list([$Html$Attributes.$class("sidebar")]),
+              _U.list([A2($Html.h1,_U.list([$Html$Attributes.$class("logo")]),_U.list([$Html.text("How to Sql")]))]))
+              ,A2(renderMainSection,address,model)]));
    });
-   var model = 1;
+   var NoOp = {ctor: "NoOp"};
+   var model = {showSql: false,radioOn: false};
    var main = $StartApp$Simple.start({model: model,view: view,update: update});
-   return _elm.Main.values = {_op: _op,main: main,model: model,view: view,update: update};
+   var Model = F2(function (a,b) {    return {showSql: a,radioOn: b};});
+   return _elm.Main.values = {_op: _op
+                             ,Model: Model
+                             ,model: model
+                             ,NoOp: NoOp
+                             ,GenerateSql: GenerateSql
+                             ,ToggleRadio: ToggleRadio
+                             ,update: update
+                             ,view: view
+                             ,renderEmptyHtml: renderEmptyHtml
+                             ,renderMainSection: renderMainSection
+                             ,renderRadioButton: renderRadioButton
+                             ,renderSqlSection: renderSqlSection
+                             ,main: main};
 };
